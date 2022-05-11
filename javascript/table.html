@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>create table</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            border: 1px solid black;
+        }
+        th, td{
+            border: 1px solid black;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<script>
+    let table = document.createElement("table");
+    let thead = document.createElement("thead");
+    let tbody = document.createElement("tbody");
+
+    let h_tr = document.createElement("tr");
+    let b_tr0 = document.createElement("tr");
+    let b_tr1 = document.createElement("tr");
+    let b_tr2 = document.createElement("tr");
+    //let th = document.createElement("th");
+    //let td = document.createElement("td");
+
+    // 데이터 셋
+    let headData = [`상품`,`가격`,`개수`,`총액`];
+    let bodyData = [
+        [`계란빵`,1200,2],
+        [`마늘빵`,2000,5],
+        [`소보로빵`,1500,3]];
+
+    // th값 만들고 tr에 자식으로 넣기
+    headData.forEach(function (ele) {
+        let th = document.createElement("th");
+        th.innerText = ele;
+        h_tr.appendChild(th);
+    })
+
+    // td값 만들고 tr에 자식으로 넣기
+    bodyData.forEach(function (value,v1) {
+        value.push(value[1] * value[2]);
+
+        value.forEach(function (ele) {
+            let td = document.createElement("td");
+            td.innerText = ele;
+            // 문자열을 스크립트로 인식시키기
+            eval(`b_tr${v1}`).appendChild(td);
+        })
+    })
+
+    thead.appendChild(h_tr);
+    tbody.appendChild(b_tr0);
+    tbody.appendChild(b_tr1);
+    tbody.appendChild(b_tr2);
+
+    table.appendChild(thead);
+    table.appendChild(tbody);
+    // table.createTHead();
+    // table.createTBody();
+    // table.createTFoot();
+
+    document.body.prepend(table);
+</script>
+</body>
+</html>
