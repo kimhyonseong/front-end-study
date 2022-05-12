@@ -8,63 +8,107 @@
             border-collapse: collapse;
             border: 1px solid black;
         }
-        th, td{
+        th, td {
             border: 1px solid black;
             text-align: center;
+        }
+        th::before {
+            content: '↑';
+            cursor : pointer;
+        }
+        th::after {
+            content: '↓';
+            opacity: 0.5;
+            cursor : pointer;
         }
     </style>
 </head>
 <body>
 <script>
-    let table = document.createElement("table");
-    let thead = document.createElement("thead");
-    let tbody = document.createElement("tbody");
+    let xml = new XMLHttpRequest();
+    let people = null;
 
-    let h_tr = document.createElement("tr");
-    let b_tr0 = document.createElement("tr");
-    let b_tr1 = document.createElement("tr");
-    let b_tr2 = document.createElement("tr");
-    //let th = document.createElement("th");
-    //let td = document.createElement("td");
+    xml.open(`GET`,`https://kw22228.github.io/Json/data.json`);
+    xml.onreadystatechange = function () {
+        if (xml.DONE === xml.readyState) {
+            people = JSON.parse(xml.responseText);
 
-    // 데이터 셋
-    let headData = [`상품`,`가격`,`개수`,`총액`];
-    let bodyData = [
-        [`계란빵`,1200,2],
-        [`마늘빵`,2000,5],
-        [`소보로빵`,1500,3]];
+            makeTable(people['people']);
+        }
+    }
+    xml.send();
 
-    // th값 만들고 tr에 자식으로 넣기
-    headData.forEach(function (ele) {
-        let th = document.createElement("th");
-        th.innerText = ele;
-        h_tr.appendChild(th);
-    })
+    function makeTable(array = null, sort = 0, ascDesc = "asc") {
+        let table = document.createElement("table");
+        let thead = document.createElement("thead");
+        let tbody = document.createElement("tbody");
+        let thData = [];
+        let trData = [];
 
-    // td값 만들고 tr에 자식으로 넣기
-    bodyData.forEach(function (value,v1) {
-        value.push(value[1] * value[2]);
+        array.forEach(function (ele) {
+            let eleKeys = Object.keys(ele);
 
-        value.forEach(function (ele) {
-            let td = document.createElement("td");
-            td.innerText = ele;
-            // 문자열을 스크립트로 인식시키기
-            eval(`b_tr${v1}`).appendChild(td);
+            eleKeys.filter(x => {
+                !thData.includes(x) ? thData.push(x) : null;
+            });
+
+            let eleValue = Object.values(ele);
+            trData.push(eleValue);
         })
-    })
 
-    thead.appendChild(h_tr);
-    tbody.appendChild(b_tr0);
-    tbody.appendChild(b_tr1);
-    tbody.appendChild(b_tr2);
+        // thead
+        thData.forEach(function (ele) {
+            let th = document.createElement("th");
+            th.innerText = ele;
+            thead.appendChild(th);
+        })
 
-    table.appendChild(thead);
-    table.appendChild(tbody);
-    // table.createTHead();
-    // table.createTBody();
-    // table.createTFoot();
+        // let a = '>';
+        // if (ascDesc === "asc") {
+        //     let a = '<';
+        // }
+        // 데이터 정렬
+        // for (let i=0; i<trData.length-1; i++) {
+        //     for(let j=0; j<trData.length-1; j++) {
+        //         let tmp = null;
+        //
+        //         if (eval(`trData[j][sort] ${a} trData[j + 1][sort]`)) {
+        //             tmp = trData[j];
+        //             trData[j] = trData[j + 1];
+        //             trData[j + 1] = tmp;
+        //         }
+        //     }
+        // }
+        // trData.sort();
 
-    document.body.prepend(table);
+        // tbody
+        trData.forEach(function (ele) {
+            let tr = document.createElement("tr");
+
+            ele.forEach(function (info) {
+                let td = document.createElement("td");
+                td.innerText = info;
+                tr.appendChild(td);
+            })
+
+            tbody.appendChild(tr);
+        })
+
+        table.appendChild(thead);
+        table.appendChild(tbody);
+
+        document.body.prepend(table);
+
+        sort1();
+    }
+
+    function sort1() {
+        document.getElementsByTagName("table").item(0)
+            .querySelector("th")
+            .addEventListener("click", function () {
+                console.log(this);
+            })
+    }
 </script>
 </body>
 </html>
