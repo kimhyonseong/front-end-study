@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="test">
+    <sample sample="sample"></sample>
+</div>
+<div id="body">
+    <product premium="premium"></product>
+    <product premium="premium" old="old"></product>
+</div>
+<script>
+    Vue.component('sample', {
+        props : {
+            sample : {
+                type:String,
+                //required: true
+            }
+        },
+        template: `<p>sample : {{sample}}</p>`
+    })
+    Vue.component('product', {
+        props : {
+            premium:  {
+                type:Boolean,
+                required: true
+            },
+            old : {
+                type:String,
+            }
+        },
+        template : `
+          <div>
+            <p>{{title}}</p>
+            <p>premium : {{goStop}}</p>
+            <p>old : {{old}}</p>
+            <p v-once>노드까지 변경하지 않음 {{msg[0]}} <span>{{msg[1]}}</span></p>
+            <p>{{msg[2]}} <span>{{msg[3]}}</span></p>
+            <p>Using v-html directive : <span v-html="raw_html"></span></p>
+            html 태그, 스타일 다 나옴
+            <p>Using v-html directive : {{raw_html}}</p>
+            html 태그가 문자열로 나옴
+            <p v-show="seen">'seen'이 true면 이 문구가 뜰거야</p>
+            <p v-if="if_value > 10">if_value는 10보다 커</p>
+            <p v-else-if="if_value === 10">if_value는 10 이야</p>
+            <p v-else>if_value는 10보다 작아</p>
+            <div>
+                <span v-for="(style,index) in img_obj" @mouseover="updateColor(index)"
+                      :style="[style]">
+                    {{'khs'}}
+                </span>
+            </div>
+            <div>
+                <span v-for="size in img_blur" @mouseover="updateImg(size)"
+                      :style="{opacity:size,textAlign,
+                backgroundColor : img_obj[selectedColor].backgroundColor,
+                color: img_obj[selectedColor].color}">
+                    {{size}}&nbsp;
+                </span>
+            </div>
+            <img :id="'one'" :src="img_url" alt="sample_img">
+            <ul>
+                <li v-for="detail in details">{{detail}}</li>
+            </ul>
+            <button v-on:click="plusCount">Plus button</button>
+            <button v-on:click="minusCount">Minus button</button>
+            <p>{{count}}</p>
+            <p :class="bindObj.class" :style='bindObj.style'>111</p>
+          </div>
+        `,
+        // 데이터(변수)
+        data () {
+            return {
+                company : 'khs',
+                product : 'remon',
+                raw_html: '<span style="color:#ff0000">This is red.</span>',
+                msg: ['message', 'message1', 'message2', 'message3'],
+                seen: true,  // false - display:none
+                if_value: 100,
+                //https://via.placeholder.com/150/0000FF(바탕색)/808080(글자색) ?Text=Digital.com
+                base_img : 'https://via.placeholder.com/150',
+                details: ["80%", "20%", "freedom..."],
+                count : 0,
+                bindObj : {
+                    class: 'active',
+                    style : {
+                        textDecoration: 'line-through',
+                        color : 'red'
+                    }
+                },
+                textAlign : 'center',
+                img_blur: [1, 0.8, 0.5, 0.2],
+                selectedColor : 0,
+                img_obj : [
+                    {
+                        backgroundColor : "#0000ff",
+                        color: "#FFFFFF"
+                    },
+                    {
+                        backgroundColor : "#ff0000",
+                        color: "#000000"
+                    },
+                    {
+                        backgroundColor : "#FFFF00",
+                        color: "#000000"
+                    },
+                    {
+                        backgroundColor : "#000000",
+                        color: "#FFFFFF"
+                    },
+                ]
+            }
+        } ,
+        // 함수
+        methods : {
+            plusCount() {
+                this.count++;
+            },
+            minusCount() {
+                this.count--;
+            },
+            updateImg(size) {
+                document.getElementById('one').style.opacity = size;
+            },
+            updateColor(index) {
+                this.selectedColor = index;
+            },
+        },
+        // 데이터를 이용하여 새로운 데이터를 만들어냄
+        computed : {
+            title() {
+                return this.company + ' ' + this.product
+            },
+            img_url() {
+                return this.base_img+'/'+this.img_obj[this.selectedColor].backgroundColor.substring(1)+
+                    '/'+this.img_obj[this.selectedColor].color.substring(1)+'?text=khs';
+            },
+            goStop() {
+                if (this.premium) {
+                    return "퇴근";
+                } else {
+                    return "출근";
+                }
+            }
+        }
+    })
+    let body = new Vue({
+        // 타켓
+        el:'#body',
+        data : {
+            premium: true,
+            old : 'old2'
+        }
+    })
+
+    let sample = new Vue({
+        // 타켓
+        el:'#test',
+        data : {
+            sample : 'A1'
+        }
+    })
+</script>
+</body>
+</html>
