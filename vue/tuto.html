@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    {{message}}
+    <my-component></my-component>
+</div>
+<my-component1></my-component1>
+<div id="app-2">
+    <!--동적 바인딩-->
+    <span v-bind:title="message">
+    내 위에 잠시 마우스를 올리면 동적으로 바인딩된 title을 볼수 있습니다.
+    </span>
+</div>
+<div id="app-3">
+    <p v-if="seen">이제 나를 볼 수 있어요</p>
+</div>
+<div id="app-4">
+    <ol>
+        <li v-for="todo in todos">
+            {{todo.text}}
+        </li>
+    </ol>
+</div>
+<div id="app-5">
+    <p>{{message}}</p>
+    <button v-on:click="reverseM">뒤집기</button>
+</div>
+<div id="app-6">
+    <p>{{message}}</p>
+    <input v-model="message">
+</div>
+<div id="app-7">
+    <ul>
+        <todo-item
+                v-for="item in g_list"
+                v-bind:todo="item"
+                v-bind:key="item.id"
+        ></todo-item>
+    </ul>
+</div>
+<script>
+    // 전역 컴포넌트
+    Vue.component('todo-item', {
+        props:['todo'],
+        template: "<li>{{todo.text}}</li>"
+    })
+
+    let app7 = new Vue({
+        el:`#app-7`,
+        data: {
+            g_list:[
+                {id:0, text:`야채`},
+                {id:1, text:`고기`},
+                {id:2, text:`후식`},
+            ]
+        }
+    })
+
+    let app1 = new Vue({
+        // 대상
+        el:"#app",
+        data: {
+            message: "Hello Vue"
+        },
+        // 컴포넌트 등록
+        components : {
+            "my-component" : {
+                template : "<div>A custom component</div>"
+            }
+        }
+    });
+
+    let app2 = new Vue({
+        el:`#app-2`,
+        data: {
+            message: `이 페이지는 ${new Date()}에 로드 되었습니다.`
+        }
+    })
+    // app2.message = ""로 메시지 동적으로 수정 가능
+
+    let app3 = new Vue({
+        el:`#app-3`,
+        data: {
+            seen : true
+        }
+    })
+    // app3.seen = false p태그 없어짐 다시 true 나타남
+
+    let app4 = new Vue({
+        el:`#app-4`,
+        data: {
+            todos:[
+                {text:`JS 배우기`},
+                {text:`Vue 배우기`},
+                {text:`만들기`}
+           ]
+        }
+    })
+    //app4.todos.push({ text:'New text' }) - li 생성됨
+
+    let app5 = new Vue({
+        el:`#app-5`,
+        data:{
+            message : '안녕하세요~'
+        },
+        methods : {
+            reverseM : function () {
+                this.message = this.message.split('').reverse().join('')
+            }
+        }
+    })
+
+    let app6 = new Vue({
+        el:`#app-6`,
+        data:{
+            message:'안녕하세요 Vue'
+        }
+    })
+</script>
+</body>
+</html>
