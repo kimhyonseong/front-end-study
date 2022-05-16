@@ -7,21 +7,22 @@
 </head>
 <body>
 <div id="test">
-    <sample sample="sample"></sample>
+    <sample title="sample1"></sample>
 </div>
 <div id="body">
-    <product premium="premium"></product>
-    <product premium="premium" old="old"></product>
+    <p>{{count}}</p>
+    <product premium="premium" @update-cnt="updateCnt"></product>
+<!--    <product premium="premium" old="old2"></product>-->
 </div>
 <script>
     Vue.component('sample', {
         props : {
-            sample : {
+            title : {
                 type:String,
                 //required: true
             }
         },
-        template: `<p>sample : {{sample}}</p>`
+        template: `<p>sample : {{title}}</p>`
     })
     Vue.component('product', {
         props : {
@@ -35,6 +36,7 @@
         },
         template : `
           <div>
+            <button @click="addCnt()">+</button>
             <p>{{title}}</p>
             <p>premium : {{goStop}}</p>
             <p>old : {{old}}</p>
@@ -129,6 +131,9 @@
             updateColor(index) {
                 this.selectedColor = index;
             },
+            addCnt() {
+                this.$emit('update-cnt',1)
+            }
         },
         // 데이터를 이용하여 새로운 데이터를 만들어냄
         computed : {
@@ -153,7 +158,14 @@
         el:'#body',
         data : {
             premium: true,
-            old : 'old2'
+            old : 'old2',
+            count : 0
+        },
+        methods: {
+            updateCnt(id) {
+                //this.count.push(id);
+                this.count++;
+            }
         }
     })
 
