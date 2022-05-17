@@ -8,17 +8,31 @@
             border-collapse: collapse;
             border: 1px solid black;
         }
+        th {
+            cursor: pointer;
+        }
         th, td {
             border: 1px solid black;
             text-align: center;
         }
         th::before {
             content: '↑';
+            opacity: 0.5;
             cursor : pointer;
         }
         th::after {
             content: '↓';
             opacity: 0.5;
+            cursor : pointer;
+        }
+        th.a_on::after {
+            content: '↓';
+            opacity: 1;
+            cursor : pointer;
+        }
+        th.b_on::before {
+            content: '↑';
+            opacity: 1;
             cursor : pointer;
         }
     </style>
@@ -27,27 +41,36 @@
 <script>
     let xml = new XMLHttpRequest();
     let people = null;
+    let data = [];
+    let thData = [];
 
+    // 데이터 저장 및 테이블 생성
     xml.open(`GET`,`https://kw22228.github.io/Json/data.json`);
     xml.onreadystatechange = function () {
         if (xml.DONE === xml.readyState) {
             people = JSON.parse(xml.responseText);
 
             makeTable(people['people']);
+            data = people['people'];
         }
     }
     xml.send();
 
-    function makeTable(array = null, sort = 0, ascDesc = "asc") {
+    // 테이블 생성
+    function makeTable(array = null,thead = null,tbody = null) {
+        // 테이블 있으면 제거
+        if (document.querySelector('table')) {
+            document.querySelector('table').remove();
+        }
+
         let table = document.createElement("table");
-        let thead = document.createElement("thead");
-        let tbody = document.createElement("tbody");
-        let thData = [];
         let trData = [];
 
+        // tr 및 th 데이터 삽입
         array.forEach(function (ele) {
             let eleKeys = Object.keys(ele);
 
+            // thData에 없으면 추가
             eleKeys.filter(x => {
                 !thData.includes(x) ? thData.push(x) : null;
             });
@@ -56,30 +79,47 @@
             trData.push(eleValue);
         })
 
-        // thead
-        thData.forEach(function (ele) {
+        if (thead === null) {
+            thead = createThead(thData);
+        }
+        if (tbody === null) {
+            tbody = createTbody(trData);
+        }
+
+        // 테이블에 thead, tbody 추가
+        table.appendChild(thead);
+        table.appendChild(tbody);
+
+        // 생성
+        document.body.prepend(table);
+    }
+
+    function  createThead(thData) {
+        let table = document.getElementsByTagName('table').item(0);
+        let thead = document.createElement("thead");
+
+        thData.forEach(function (ele,index) {
             let th = document.createElement("th");
+            let already_th = table?.querySelectorAll('th');
+
             th.innerText = ele;
+            th.onclick = function () {
+                console.log(already_th?.item(index).classList.contains('b_on'));
+
+                if (already_th?.item(index).classList.contains('b_on')) {
+                    sortTr(index,'asc');
+                } else {
+                    sortTr(index,'desc');
+                }
+            }
             thead.appendChild(th);
         })
 
-        // let a = '>';
-        // if (ascDesc === "asc") {
-        //     let a = '<';
-        // }
-        // 데이터 정렬
-        // for (let i=0; i<trData.length-1; i++) {
-        //     for(let j=0; j<trData.length-1; j++) {
-        //         let tmp = null;
-        //
-        //         if (eval(`trData[j][sort] ${a} trData[j + 1][sort]`)) {
-        //             tmp = trData[j];
-        //             trData[j] = trData[j + 1];
-        //             trData[j + 1] = tmp;
-        //         }
-        //     }
-        // }
-        // trData.sort();
+        return thead;
+    }
+
+    function createTbody(trData = []) {
+        let tbody = document.createElement("tbody");
 
         // tbody
         trData.forEach(function (ele) {
@@ -94,21 +134,59 @@
             tbody.appendChild(tr);
         })
 
-        table.appendChild(thead);
-        table.appendChild(tbody);
-
-        document.body.prepend(table);
-
-        sort1();
+        return tbody;
     }
 
-    function sort1() {
-        document.getElementsByTagName("table").item(0)
-            .querySelector("th")
-            .addEventListener("click", function () {
-                console.log(this);
-            })
+    function sortTr(index, sort = 'asc') {
+        let table = document.getElementsByTagName('table').item(0);
+        let th = table.querySelectorAll('th');
+        let tr = table.querySelectorAll('tr');
+        let tmp = null;
+        let copy_data = data;
+
+
+        for(let i = 0; i<tr.length-1; i++) {
+            for(let k=0; k<tr.length-1; k++) {
+                if (sort === 'asc') {
+                    if (copy_data[k][thData[index]] < copy_data[k + 1][thData[index]]) {
+                        tmp = copy_data[k];
+                        copy_data[k] = copy_data[k + 1];
+                        copy_data[k + 1] = tmp;
+                    }
+                } else {
+                    if (copy_data[k][thData[index]] > copy_data[k + 1][thData[index]]) {
+                        tmp = copy_data[k];
+                        copy_data[k] = copy_data[k + 1];
+                        copy_data[k + 1] = tmp;
+                    }
+                }
+            }
+        }
+
+        makeTable(copy_data,createThead(thData),null);
+        trClassChange(index, sort);
     }
+
+    function trClassChange(index, sort = 'asc') {
+        let th = document.querySelectorAll('th');
+
+        th.forEach(function (ele,ele_cnt) {
+            // 클래스 변경
+            if(index === ele_cnt) {
+                if (sort === 'asc') {
+                    ele.classList.add('a_on');
+                    ele.classList.remove('b_on');
+                } else {
+                    ele.classList.add('b_on');
+                    ele.classList.remove('a_on');
+                }
+            } else {
+                ele.classList.remove('a_on');
+                ele.classList.remove('b_on');
+            }
+        })
+    }
+
 </script>
 </body>
 </html>
