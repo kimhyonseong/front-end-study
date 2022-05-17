@@ -58,11 +58,6 @@
 
     // 테이블 생성
     function makeTable(array = null,thead = null,tbody = null) {
-        // 테이블 있으면 제거
-        if (document.querySelector('table')) {
-            document.querySelector('table').remove();
-        }
-
         let table = document.createElement("table");
         let trData = [];
 
@@ -90,6 +85,11 @@
         table.appendChild(thead);
         table.appendChild(tbody);
 
+        // 테이블 있으면 제거
+        if (document.querySelector('table')) {
+            document.querySelector('table').remove();
+        }
+
         // 생성
         document.body.prepend(table);
     }
@@ -104,9 +104,13 @@
 
             th.innerText = ele;
             th.onclick = function () {
+                // 누를때 초기화 해줘야함
+                table = document.getElementsByTagName('table').item(0);
+                already_th = table.querySelectorAll('th');
+
                 console.log(already_th?.item(index).classList.contains('b_on'));
 
-                if (already_th?.item(index).classList.contains('b_on')) {
+                if (already_th?.item(index).classList.contains('a_on')) {
                     sortTr(index,'asc');
                 } else {
                     sortTr(index,'desc');
@@ -147,7 +151,7 @@
 
         for(let i = 0; i<tr.length-1; i++) {
             for(let k=0; k<tr.length-1; k++) {
-                if (sort === 'asc') {
+                if (sort === 'desc') {
                     if (copy_data[k][thData[index]] < copy_data[k + 1][thData[index]]) {
                         tmp = copy_data[k];
                         copy_data[k] = copy_data[k + 1];
@@ -173,7 +177,7 @@
         th.forEach(function (ele,ele_cnt) {
             // 클래스 변경
             if(index === ele_cnt) {
-                if (sort === 'asc') {
+                if (sort === 'desc') {
                     ele.classList.add('a_on');
                     ele.classList.remove('b_on');
                 } else {
