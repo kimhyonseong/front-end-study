@@ -1,0 +1,47 @@
+html {
+    margin: 0;
+    padding: 0;
+}
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+.clock{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 5px black solid;
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+}
+
+.clock .clock_face {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform: translateY(-3px);
+}
+.clock .clock_face div {
+    position: absolute;
+    width: 50%;
+    background: black;
+    top : 50%;
+    transform: rotate(90deg);
+    transform-origin: 100%; /* 회전 중심 */
+    transition: all 0.5s;
+    transition-timing-function: cubic-bezier(0, 1.68, 0.42, 1.38);
+}
+.clock .clock_face .hour {
+    height: 6px;
+}
+
+.clock .clock_face .min {
+    height: 4px;
+}
+
+.clock .clock_face .sec {
+    height: 2px;
+}
