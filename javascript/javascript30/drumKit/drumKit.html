@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Drum-Kit</title>
+    <style>
+        .drum_kit {
+            width: 100%;
+            height: 300px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            text-align: center;
+            align-content: space-around;
+        }
+        .square {
+            border: 3px solid black;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-content: center;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 1em;
+            transition: all 10ms;
+        }
+        .play {
+            border: 3px solid yellow;
+            font-weight: bold;
+            transform: scale(1.1);
+        }
+        .keycode {
+            font-size: 25px;
+            margin-bottom: 10px;
+        }
+    </style>
+    <script async src="drum.js"></script>
+</head>
+<body>
+<div class="drum_kit">
+    <div class="square" data-key="65">
+        <div class="keycode">A</div>
+        <div class="session">CLAP</div>
+    </div>
+    <div class="square" data-key="83">
+        <div class="keycode">S</div>
+        <div class="session">HIHAT</div>
+    </div>
+    <div class="square" data-key="68">
+        <div class="keycode">D</div>
+        <div class="session">KICK</div>
+    </div>
+    <div class="square" data-key="70">
+        <div class="keycode">F</div>
+        <div class="session">OPEN HIHAT</div>
+    </div>
+    <div class="square" data-key="71">
+        <div class="keycode">G</div>
+        <div class="session">RIDE</div>
+    </div>
+    <div class="square" data-key="72">
+        <div class="keycode">H</div>
+        <div class="session">SNARE</div>
+    </div>
+    <div class="square" data-key="74">
+        <div class="keycode">J</div>
+        <div class="session">TOM</div>
+    </div>
+    <div class="square" data-key="75">
+        <div class="keycode">K</div>
+        <div class="session">TINK</div>
+    </div>
+    <div class="square" data-key="76">
+        <div class="keycode">L</div>
+        <div class="session">BOOM</div>
+    </div>
+</div>
+<audio src="sound/Drum_Kit_sounds_clap.wav" data-key="65"></audio>
+<audio src="sound/Drum_Kit_sounds_hihat.wav" data-key="83"></audio>
+<audio src="sound/Drum_Kit_sounds_kick.wav" data-key="68"></audio>
+<audio src="sound/Drum_Kit_sounds_openhat.wav" data-key="70"></audio>
+<audio src="sound/Drum_Kit_sounds_ride.wav" data-key="71"></audio>
+<audio src="sound/Drum_Kit_sounds_snare.wav" data-key="72"></audio>
+<audio src="sound/Drum_Kit_sounds_tom.wav" data-key="74"></audio>
+<audio src="sound/Drum_Kit_sounds_tink.wav" data-key="75"></audio>
+<audio src="sound/Drum_Kit_sounds_boom.wav" data-key="76"></audio>
+</body>
+</html>
