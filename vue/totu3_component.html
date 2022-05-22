@@ -72,6 +72,18 @@
             <button v-on:click="minusCount">Minus button</button>
             <p>{{count}}</p>
             <p :class="bindObj.class" :style='bindObj.style'>111</p>
+            <div>
+              <h2>Reviews</h2>
+              <p v-if="!reviews.length">There are no reviews yet.</p>
+              <ul>
+                <li v-for="review in reviews">
+                  <p>{{review.name}}</p>
+                  <p>{{review.review}}</p>
+                  <p>{{review.rating}}</p>
+                </li>
+              </ul>
+            </div>
+            <product-review @review-submitted="addReview"></product-review>
           </div>
         `,
         // 데이터(변수)
@@ -114,7 +126,8 @@
                         backgroundColor : "#000000",
                         color: "#FFFFFF"
                     },
-                ]
+                ],
+                reviews: []
             }
         } ,
         // 함수
@@ -133,6 +146,9 @@
             },
             addCnt() {
                 this.$emit('update-cnt',1)
+            },
+            addReview(productReview) {
+                this.reviews.push(productReview);
             }
         },
         // 데이터를 이용하여 새로운 데이터를 만들어냄
@@ -150,6 +166,69 @@
                 } else {
                     return "출근";
                 }
+            }
+        }
+    })
+
+    Vue.component('product-review', {
+        template : `
+          <form class="review-from" @submit.prevent="onSubmit">
+          <p v-if="errors.length">
+            <b>Please correct the following error(s):</b>
+            <ul>
+              <li v-for="error in errors">{{error}}</li>
+            </ul>
+          </p>
+
+          <p>
+            <select id="rating" v-model.number="rating">
+              <option>5</option>
+              <option>4</option>
+              <option>3</option>
+              <option>2</option>
+              <option>1</option>
+            </select>
+          </p>
+          <p>
+            Name: <input v-model="name" @keyup="print()" placeholder="name">
+          </p>
+          <p>
+            Review: <input v-model="review" placeholder="review">
+          </p>
+          <p>
+            <input type="submit" value="Submit">
+          </p>
+          </form>
+        `,
+        data() {
+            return {
+                name:null,
+                review: null,
+                rating: null,
+                errors: []
+            }
+        },
+        methods: {
+            print() {
+                console.log(this.name);
+            },
+            onSubmit() {
+                if (this.name && this.review && this.rating) {
+                    let productReview = {
+                        name: this.name,
+                        review: this.review,
+                        rating: this.rating,
+                    }
+                    this.$emit('review-submitted',productReview);
+                    this.name = null;
+                    this.review = null;
+                    this.rating = null;
+                } else {
+                    if (!this.name) this.errors.push("Name required");
+                    if (!this.review) this.errors.push("Review required");
+                    if (!this.rating) this.errors.push("Rating required");
+                }
+
             }
         }
     })
