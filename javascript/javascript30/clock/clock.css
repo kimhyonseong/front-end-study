@@ -22,7 +22,10 @@ body{
     position: relative;
     width: 100%;
     height: 100%;
-    transform: translateY(-3px);
+    /*transform: translateY(-3px);*/
+    transform: translate(-50%,-3px);
+    display: flex;
+    justify-content: end;
 }
 .clock .clock_face div {
     position: absolute;
@@ -36,10 +39,12 @@ body{
 }
 .clock .clock_face .hour {
     height: 6px;
+    width: 30%;
 }
 
 .clock .clock_face .min {
     height: 4px;
+    width: 40%;
 }
 
 .clock .clock_face .sec {

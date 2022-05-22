@@ -1,25 +1,20 @@
+let hourDiv = document.querySelector('.hour');
+let minDiv = document.querySelector('.min');
+let secDiv = document.querySelector('.sec');
+
 function clockSec() {
-    let hourDiv = document.querySelector('.hour');
-    let minDiv = document.querySelector('.min');
-    let secDiv = document.querySelector('.sec');
+    let now = new Date();
+    let sec = now.getSeconds();
+    let min = now.getMinutes();
+    let hour = now.getHours();
 
-    let sec = 90;
-    let min = 90;
-    let hour = 90;
-    setInterval(function () {
-        sec += 6;
-        secDiv.style.transform = `rotate(${sec}deg)`;
+    let secDeg = (sec/60) * 360 + 90;
+    let minDeg = (min/60) * 360 +90;
+    let hourDeg = (hour/12)*360 +90;
 
-        if (sec % 360 === 90) {
-            min += 6;
-            minDiv.style.transform = `rotate(${min}deg)`;
-        }
+    secDiv.style.transform = `rotate(${secDeg}deg)`;
+    minDiv.style.transform = `rotate(${minDeg}deg)`;
+    hourDiv.style.transform = `rotate(${hourDeg}deg)`;
 
-        if (sec % (360*6) === 90) {
-            hour += 6;
-            hourDiv.style.transform = `rotate(${hour}deg)`;
-        }
-    },1000)
 }
-
-clockSec();
+setInterval(clockSec,1000);
