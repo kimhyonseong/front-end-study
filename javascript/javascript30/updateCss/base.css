@@ -1,0 +1,17 @@
+:root {
+    --base:#4c78b0;
+    --spacing: 10px;
+    --blur:10px;
+}
+.controller{
+    margin-bottom: 20px;
+}
+.baseColor{
+    color: var(--base);
+}
+
+img{
+    padding: var(--spacing);
+    background-color: var(--base);
+    filter: blur(var(--blur));
+}
