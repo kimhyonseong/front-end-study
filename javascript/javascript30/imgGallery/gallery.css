@@ -52,30 +52,32 @@ body {
     justify-content: center;
     align-items: center;
     flex: 1 0 auto;
+    font-weight: bold;
 }
 .panel > *:first-child {
     transform: translateY(-100%);
 }
-.panel >.open-active *:first-child {
+.panel.open-active> *:first-child {
     transform: translateY(0);
 }
 .panel > *:last-child {
     transform: translateY(100%);
 }
-.panel >.open-active *:last-child {
+.panel.open-active> *:last-child {
     transform: translateY(0);
 }
 
-.panel >.open-active {
-    /*font-size: 50px;*/
-}
-
-.panel .open {
-    font-size: 60px;
+.panel.open {
+    flex: 5;
+    font-size: 40px;
 }
 
 .panel p {
     font-family: 'Amatic SC', cursive;
     color: white;
     font-size: 40px;
+}
+
+.panel p:nth-child(2) {
+    font-size: 60px;
 }
