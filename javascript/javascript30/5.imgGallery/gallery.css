@@ -33,16 +33,16 @@ body {
     flex: 1;
 }
 .panel1 {
-    background-image:url("/javascript/javascript30/imgGallery/img/boat.png");
+    background-image:url("/javascript/javascript30/5.imgGallery/img/boat.png");
 }
 .panel2 {
-    background-image:url("/javascript/javascript30/imgGallery/img/eclipse.jpg");
+    background-image:url("/javascript/javascript30/5.imgGallery/img/eclipse.jpg");
 }
 .panel3 {
-    background-image:url("/javascript/javascript30/imgGallery/img/map-of-the-world.jpg");
+    background-image:url("/javascript/javascript30/5.imgGallery/img/map-of-the-world.jpg");
 }
 .panel4 {
-    background-image:url("/javascript/javascript30/imgGallery/img/sunflowers.jpg");
+    background-image:url("/javascript/javascript30/5.imgGallery/img/sunflowers.jpg");
 }
 
 .panel > * {
