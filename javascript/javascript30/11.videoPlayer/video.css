@@ -1,0 +1,69 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.player {
+    min-width: 640px;
+    width: 640px;
+    position: relative;
+    overflow: hidden;
+}
+.player:fullscreen{
+    max-width: none;
+    width: 100%;
+}
+
+.player_video {
+    width: 100%;
+    height: 100%;
+}
+
+.player_slider {
+    width: 10px;
+    height: 30px;
+}
+.player_controller {
+    display: flex;
+    width: 100%;
+    position: absolute;
+    flex-wrap: wrap;
+    transform: translateY(100%) translateY(-5px);
+    transition: all .3s;
+    background: rgba(0,0,0,0.1);
+    bottom: 0;
+}
+.player:hover .player_controller {
+    transform: translateY(0);
+}
+.player:hover .progress {
+    height: 15px;
+}
+
+.player_controller > * {
+    flex: 1;
+}
+
+.progress{
+    flex: 10;
+    display: flex;
+    flex-basis: 100%;
+    position: relative;
+    height: 5px;
+    transition: height 0.3s;
+    cursor: ew-resize;
+    background: rgba(0,0,0,0.5);
+}
+
+.progress_filled{
+    /*width: 50%;*/
+    background-color: #ffc600;
+    flex: 0;
+    flex-basis: 0%;
+}
