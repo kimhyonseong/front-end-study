@@ -131,7 +131,7 @@ main .form-div h3 .border-bottom{
     height: auto;
 }
 
-.food-eval {
+.food-rating {
     width: 600px;
     display: flex;
     flex-direction: column;
@@ -139,18 +139,23 @@ main .form-div h3 .border-bottom{
     padding: 100px;
 }
 
-.food-eval .food-img {
+.food-rating .food-img {
     width: 350px;
     height: 350px;
     overflow: hidden;
     border-radius: 100%;
 }
 
-.food-eval .evaluation input[type=radio]{
+.food-rating .rating-star input[type=radio]{
     display: none;
 }
 
-.food-eval .evaluation {
+.food-rating .rating-star {
     text-align: center;
-    font-size: 20px;
+    font-size: 40px;
+    color: #8080805c;
+}
+
+.food-rating .rating-star .star.yellow {
+    color: #ffc600;
 }
