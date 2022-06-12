@@ -112,6 +112,7 @@ main .form-div h3 .border-bottom{
     border-radius: 100%;
     font-size: 20px;
     transition: all 0.2s;
+    text-transform: capitalize;
 }
 
 .food-list .food .food-name.active {
@@ -146,16 +147,60 @@ main .form-div h3 .border-bottom{
     border-radius: 100%;
 }
 
+.food-rating .food-avr {
+    margin-top: 15px;
+    font-size: 20px;
+}
+
+.food-rating .food-avr .avr {
+    font-size: 25px;
+    color: #ffc600;
+}
+
 .food-rating .rating-star input[type=radio]{
     display: none;
 }
 
 .food-rating .rating-star {
+    margin-top: 15px;
     text-align: center;
     font-size: 40px;
     color: #8080805c;
 }
 
+.food-rating .rating-star .text{
+    color: black;
+    font-size: 15px;
+}
+
 .food-rating .rating-star .star.yellow {
     color: #ffc600;
+}
+.food-rating .food-name {
+    margin: 10px;
+    font-size: 40px;
+    text-transform: capitalize;
+}
+
+.food-rating .food-cate {
+    margin-bottom: 30px;
+}
+
+.food-rating .food-reply {
+    max-width: 100%;
+    text-align: center;
+}
+
+.food-rating .food-reply .reply{
+    width: content-box;
+    margin-bottom: 15px;
+}
+
+.food-rating .food-reply .reply .text{
+    border-bottom: 1px black solid;
+    line-height: 1.5rem;
+}
+
+.food-rating .food-reply .reply .user_id {
+    margin-top: 10px;
 }
