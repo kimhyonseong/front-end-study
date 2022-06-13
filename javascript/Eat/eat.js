@@ -1,9 +1,14 @@
 const cate = document.querySelector('.category');
 const cateBtn = cate.querySelectorAll('label');
 const foods = document.querySelectorAll('.food');
+
 const rating = document.querySelector('.rating-star');
 const ratingStar = rating.querySelectorAll('.star');
 const ratingBtn = rating.querySelectorAll('input[type=radio]');
+
+const loginBox = document.querySelectorAll('.login');
+const loginInputs = loginBox.item(0).querySelectorAll('input');
+const regiInputs = loginBox.item(1).querySelectorAll('input');
 
 function toggleActive() {
     if (!this.classList.contains('a-fix')) {
@@ -48,6 +53,17 @@ function fixStar(num = 0) {
     }
 }
 
+function toggleLabel(e) {
+    const label = this.parentNode.querySelector(`label[for="${this.id}"]`);
+    e.preventDefault();
+    if (label === null) return 0;
+    if (this.value.trim() === '') {
+        label.classList.toggle('focus');
+    } else {
+        label.classList.toggle('font-black');
+    }
+}
+
 // 카테고리 이벤트
 cateBtn.forEach(btn => btn.addEventListener('mouseenter',toggleActive))
 cateBtn.forEach(btn => btn.addEventListener('mouseleave',toggleActive))
@@ -63,3 +79,9 @@ foods.forEach(food =>
 ratingBtn.forEach((rate,i) =>rate.addEventListener('click',() => fixStar(i)))
 ratingStar.forEach((rate,i) =>rate.addEventListener('mouseenter',() => colorStar(i)))
 ratingStar.forEach((rate,i) =>rate.addEventListener('mouseleave',() => colorStar(-1)))
+
+// 로그인, 회원가입
+loginInputs.forEach(input => input.addEventListener('focus',toggleLabel));
+loginInputs.forEach(input => input.addEventListener('focusout',toggleLabel));
+regiInputs.forEach(input => input.addEventListener('focus',toggleLabel));
+regiInputs.forEach(input => input.addEventListener('focusout',toggleLabel));
