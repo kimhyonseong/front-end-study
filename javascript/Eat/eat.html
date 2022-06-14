@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Eat</title>
-    <link rel="stylesheet" href="eatStyle.css">
-    <script async src="eat.js"></script>
+    <link rel="stylesheet" href="css/eatStyle.css">
+    <script async src="js/eat.js"></script>
 </head>
 <body>
 <div class="background"></div>
@@ -27,8 +27,9 @@
                 </label>
             </div>
             <div class="search">
-                <input name="food" placeholder="food name">
-                <input type="submit" value="Find">
+                <label for="food" class="food_placeholder">Food name</label>
+                <input name="food" id="food" class="food-search">
+                <input type="submit" class="food-search-bnt" value="Find">
             </div>
         </form>
     </div>
@@ -130,26 +131,26 @@
             </div>
         </div>
     </div>
-    <div class="login">
+    <div class="login none">
         <form method="post">
-            <label for="id" class="id_placeholder">ID</label>
-            <input type="text" id="id" name="user_id" value="" >
-            <label for="pw" class="pw_placeholder">PW</label>
-            <input type="password" id="pw" name="user_pw" value="">
+            <label for="loginId" class="id_placeholder">ID</label>
+            <input type="text" id="loginId" name="user_id" value="" >
+            <label for="loginPw" class="pw_placeholder">PW</label>
+            <input type="password" id="loginPw" name="user_pw" value="">
             <div class="buttons">
                 <input type="submit" value="로그인">
                 <input type="button" value="회원가입">
             </div>
         </form>
     </div>
-    <div class="login">
+    <div class="login none register">
         <form method="post">
-            <label for="id" class="id_placeholder">ID</label>
-            <input type="text" id="id" name="user_id" value="" >
-            <label for="pw" class="pw_placeholder">PW</label>
-            <input type="password" id="pw" name="user_pw" value="">
+            <label for="signupId" class="id_placeholder">ID</label>
+            <input type="text" id="signupId" name="user_id" value="" >
+            <label for="signupPw" class="pw_placeholder">PW</label>
+            <input type="password" id="signupPw" name="user_pw" value="">
             <label for="name" class="name_placeholder">Name</label>
-            <input type="password" id="name" name="user_name" value="">
+            <input type="text" id="name" name="user_name" value="">
             <div class="buttons">
                 <input type="submit" value="회원가입">
             </div>

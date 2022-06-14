@@ -1,0 +1,111 @@
+.food-rating {
+    width: 600px;
+    max-height: 200vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px 100px;
+    /*transition: padding 0.5s, height 0.5s, margin 0.5s,*/
+    /*visibility 0s, opacity 0.2s;*/
+    transition : all 0.3s, padding 0.5s, max-height 0.5s, margin 0.5s;
+}
+
+.food-rating .food-img {
+    width: 350px;
+    height: 350px;
+    overflow: hidden;
+    border-radius: 100%;
+}
+
+.food-rating .food-avr {
+    margin-top: 15px;
+    font-size: 20px;
+}
+
+.food-rating .food-avr .avr {
+    font-size: 25px;
+    color: #ffc600;
+}
+
+.food-rating .rating-star input[type=radio]{
+    display: none;
+}
+
+.food-rating .rating-star {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 40px;
+    color: #8080805c;
+}
+
+.food-rating .rating-star .text{
+    color: black;
+    font-size: 15px;
+}
+
+.food-rating .rating-star .star.yellow {
+    color: #ffc600;
+}
+.food-rating .food-name {
+    margin: 10px;
+    font-size: 40px;
+    text-transform: capitalize;
+}
+
+.food-rating .food-cate {
+    margin-bottom: 30px;
+}
+
+.food-rating .food-reply {
+    max-width: 100%;
+    text-align: center;
+}
+
+.food-rating .food-reply .reply{
+    width: content-box;
+    margin-bottom: 15px;
+}
+
+.food-rating .food-reply .reply .text{
+    border-bottom: 1px black solid;
+    line-height: 1.5rem;
+}
+
+.food-rating .food-reply .reply .user_id {
+    margin-top: 10px;
+}
+
+.food-rating.none {
+    visibility: hidden;
+    max-height: 0;
+    margin: 0;
+    padding: 0;
+    opacity: 0;
+    transition: padding 0.5s, max-height 0.5s, margin 0.5s,
+    visibility 0s, opacity 0.2s;
+    transition-delay: 0.5s;
+}
+
+.food-rating>*{
+    transition: padding 0.5s, height 0.5s, margin 0.5s,
+    visibility 0s, opacity 0.2s;
+}
+/*.food-rating.none>* {*/
+/*    visibility: hidden;*/
+/*    height: 0;*/
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*    opacity: 0;*/
+/*    transition: padding 0.5s, height 0.5s, margin 0.5s,*/
+/*    visibility 0s, opacity 0.2s;*/
+/*}*/
+
+.food-rating>.none {
+    visibility: hidden;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    opacity: 0;
+    transition: padding 0.5s, height 0.5s, margin 0.5s,
+    visibility 0s, opacity 0.2s;
+}

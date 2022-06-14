@@ -1,3 +1,7 @@
+const mainBox = document.querySelector('main');
+
+const foodName = document.getElementById("food");
+
 const cate = document.querySelector('.category');
 const cateBtn = cate.querySelectorAll('label');
 const foods = document.querySelectorAll('.food');
@@ -44,6 +48,12 @@ function colorStar(num = 0) {
 }
 
 function fixStar(num = 0) {
+    // 로그인 이동
+    if (getCookie('user') === null) {
+        console.log('no login');
+        return false;
+    }
+
     for (let i =0; i< 5; i++) {
         if (i <= num) {
             ratingStar.item(i).classList.add('fixedStar');
@@ -51,6 +61,38 @@ function fixStar(num = 0) {
             ratingStar.item(i).classList.remove('fixedStar');
         }
     }
+}
+
+function getCookie(name) {
+    let matches = document.cookie.match(new RegExp(
+        "(?:^|; )"+name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g,'\\$1') + "=([^;]*)"
+    ));
+    let result = matches ? decodeURIComponent(matches[0]) : undefined;
+    return result ? result.split('=')[1] : null;
+}
+
+function setCookie(name, value,options = {}) {
+    options = {
+        path: '/',
+    };
+
+    if (options.expires instanceof Date) {
+        options.expires = options.expires.toUTCString();
+    }
+
+    let updatedCookie = encodeURIComponent(name)+"="+encodeURIComponent(value);
+
+    console.log(encodeURIComponent(value));
+
+    for (let optionKey in options) {
+        updatedCookie += `; ${optionKey}`;
+        let optionValue = options[optionKey];
+        if (optionValue !== true) {
+            updatedCookie += `=${optionValue}`;
+        }
+    }
+
+    document.cookie = updatedCookie;
 }
 
 function toggleLabel(e) {
@@ -63,6 +105,27 @@ function toggleLabel(e) {
         label.classList.toggle('font-black');
     }
 }
+
+function allNone() {
+    console.log(mainBox.children);
+    Array.from(mainBox.children).forEach(child => {
+        Array.from(child.children).forEach(child2 =>
+            child2.classList.add('none'));
+        child.classList.add('none');
+    });
+}
+
+function displayNone(classNm) {
+    const element = document.querySelector(`.${classNm}`);
+
+    Array.from(element.children).forEach(child => {
+        child.classList.add('none');
+    });
+}
+
+// 음식 검색
+foodName.addEventListener('focus',toggleLabel);
+foodName.addEventListener('focusout',toggleLabel);
 
 // 카테고리 이벤트
 cateBtn.forEach(btn => btn.addEventListener('mouseenter',toggleActive))
