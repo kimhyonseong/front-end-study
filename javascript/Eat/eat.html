@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <title>Eat</title>
     <link rel="stylesheet" href="css/eatStyle.css">
-    <script async src="js/eat.js"></script>
+
 </head>
 <body>
 <div class="background"></div>
 <main>
     <div class="form-div">
         <h3>Find Menu<br><span class="border-bottom">Choose Menu</span></h3>
-        <form class="form">
+        <form >
             <div class="category">
                 <label>
                     <input type="button" value="1">한식
@@ -83,7 +83,7 @@
             </div>
         </div>
     </div>
-    <div class="food-rating">
+    <div class="food-rating none">
         <div class="food-img">
             <img src="/javascript/Eat/food/bread.jpg" alt="pizza">
         </div>
@@ -132,19 +132,19 @@
         </div>
     </div>
     <div class="login none">
-        <form method="post">
+        <form class="loginForm" method="post">
             <label for="loginId" class="id_placeholder">ID</label>
             <input type="text" id="loginId" name="user_id" value="" >
             <label for="loginPw" class="pw_placeholder">PW</label>
             <input type="password" id="loginPw" name="user_pw" value="">
             <div class="buttons">
-                <input type="submit" value="로그인">
-                <input type="button" value="회원가입">
+                <input type="submit" data-value="login" value="로그인">
+                <input type="button" data-value="register" value="회원가입">
             </div>
         </form>
     </div>
     <div class="login none register">
-        <form method="post">
+        <form class="registerForm" method="post">
             <label for="signupId" class="id_placeholder">ID</label>
             <input type="text" id="signupId" name="user_id" value="" >
             <label for="signupPw" class="pw_placeholder">PW</label>
@@ -157,5 +157,6 @@
         </form>
     </div>
 </main>
+<script async src="js/eat.js"></script>
 </body>
 </html>

@@ -38,6 +38,10 @@
     color: #8080805c;
 }
 
+.food-rating .rating-star .star{
+    cursor: pointer;
+}
+
 .food-rating .rating-star .text{
     color: black;
     font-size: 15px;
@@ -45,6 +49,7 @@
 
 .food-rating .rating-star .star.yellow {
     color: #ffc600;
+    cursor: pointer;
 }
 .food-rating .food-name {
     margin: 10px;

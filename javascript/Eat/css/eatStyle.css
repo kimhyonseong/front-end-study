@@ -85,6 +85,7 @@ main .form-div h3 .border-bottom{
     margin: 10px;
     transition: all 0.2s;
     padding: 5px;
+    cursor: pointer;
 }
 .category label.active{
     color: white;
