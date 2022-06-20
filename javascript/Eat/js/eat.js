@@ -1,4 +1,11 @@
+import jsonData from './food.json' assert {type:"json"};
+import * as json from "./jsonParse";
+const foodData = jsonData;
 
+// 초기 셋팅
+document.querySelector('.food-list').innerHTML = json.showFood(foodData);
+
+// 객체 선언
 const mainBox = document.querySelector('main');
 
 const foodName = document.getElementById("food");
@@ -18,6 +25,7 @@ const loginBt = loginBox.item(0).querySelectorAll('.buttons>input');
 const loginForm = document.querySelector('form[class="loginForm"]');
 const registerForm = document.querySelector('form[class="registerForm"]');
 
+//클레스까지 스크롤
 function scrollClass(clasNm) {
     const element = document.querySelector(`.${clasNm}`);
     window.scroll({
@@ -26,6 +34,7 @@ function scrollClass(clasNm) {
     })
 }
 
+// 클래스 토클
 function toggleActive() {
     if (!this.classList.contains('a-fix')) {
         this.classList.toggle('active');
@@ -61,7 +70,7 @@ function colorStar(num = 0) {
 
 function fixStar(num = 0) {
     // 로그인 이동
-    if (getCookie('user') === null) {
+    if (getCookie('id') === null) {
         if (confirm('로그인이 필요합니다. 로그인하시겠습니까?')) {
             login();
             scrollClass('background');
@@ -96,13 +105,13 @@ function loginAction(e) {
 
         let test = userDataId.indexOf(userId);
 
-        if (test && userDataPw[test] === password) {
+        if (userDataPw[test] === password) {
             setCookie('id',userDataId[test]);
             setCookie('name',userDataNm[test]);
             alert('로그인 완료.');
 
-            // 내가 전에 평가하던 페이지로 가기기
-           location.reload();
+            // 내가 전에 평가하던 페이지로 가기
+            location.reload();
         } else {
             alert('아이디와 비밀번호가 일치하지 않습니다.');
             return false;
@@ -136,8 +145,6 @@ function setCookie(name, value,options = {}) {
 
     let updatedCookie = encodeURIComponent(name)+"="+encodeURIComponent(value);
 
-    console.log(encodeURIComponent(value));
-
     for (let optionKey in options) {
         updatedCookie += `; ${optionKey}`;
         let optionValue = options[optionKey];
@@ -150,20 +157,19 @@ function setCookie(name, value,options = {}) {
 }
 
 function localSave(obj) {
-    console.log(obj);
-    const userIds = window.localStorage.getItem('id').split(',');
+    const userIds = window.localStorage.getItem('id');
     let all = {
         id:'',
         password:'',
         name: ''
     }
     if (typeof obj === 'object') {
-        if (window.localStorage.getItem('id')) {
-            if (userIds.includes(obj.id)) {
+        if (userIds) {
+            if (userIds.split(',').includes(obj.id)) {
                 alert('이미 사용 중인 아이디입니다.');
                 return false;
             }
-            all.id = ','+window.localStorage.getItem('id');
+            all.id = ','+userIds;
             all.password = ','+window.localStorage.getItem('password');
             all.name = ','+window.localStorage.getItem('name');
         }
@@ -230,16 +236,21 @@ foods.forEach(food =>
 
 // 별 평가 이벤트
 ratingBtn.forEach((rate,i) =>rate.addEventListener('click',() => fixStar(i)))
-ratingStar.forEach((rate,i) =>rate.addEventListener('mouseenter',() => colorStar(i)))
-ratingStar.forEach((rate,i) =>rate.addEventListener('mouseleave',() => colorStar(-1)))
+ratingStar.forEach((rate,i) => rate.addEventListener('mouseenter', ()=> {
+    colorStar.call(window,i)
+}))
+ratingStar.forEach((rate) => rate.addEventListener('mouseleave', () => {
+    colorStar.call(window,-1)
+}))
 
-// 로그인, 회원가입
+// 로그인
 loginInputs.forEach(input => input.addEventListener('focus',toggleLabel));
 loginInputs.forEach(input => input.addEventListener('focusout',toggleLabel));
-regiInputs.forEach(input => input.addEventListener('focus',toggleLabel));
-regiInputs.forEach(input => input.addEventListener('focusout',toggleLabel));
 loginBt.forEach(bt => bt.addEventListener('click', loginAction))
 
+// 회원가입
+regiInputs.forEach(input => input.addEventListener('focus',toggleLabel));
+regiInputs.forEach(input => input.addEventListener('focusout',toggleLabel));
 registerForm.addEventListener('submit',(e)=>{
     e.preventDefault();
     const userId = registerForm.querySelector('input[name="user_id"]');
@@ -265,3 +276,6 @@ registerForm.addEventListener('submit',(e)=>{
         displayShow('login');
     }
 })
+
+registerForm.querySelector('input[data-value="goLogin"]')
+    .addEventListener('click',login);
