@@ -1,9 +1,12 @@
 import jsonData from './food.json' assert {type:"json"};
 import * as json from "./jsonParse";
+import {foodTemplate} from "./jsonParse";
 const foodData = jsonData;
 
 // 초기 셋팅
 document.querySelector('.food-list').innerHTML = json.showFood(foodData);
+const foodList = document.querySelector('.food-list');
+const foodInfo = document.querySelector(".food-info");
 
 // 객체 선언
 const mainBox = document.querySelector('main');
@@ -13,10 +16,6 @@ const foodName = document.getElementById("food");
 const cate = document.querySelector('.category');
 const cateBtn = cate.querySelectorAll('label');
 const foods = document.querySelectorAll('.food');
-
-const rating = document.querySelector('.rating-star');
-const ratingStar = rating.querySelectorAll('.star');
-const ratingBtn = rating.querySelectorAll('input[type=radio]');
 
 const loginBox = document.querySelectorAll('.login');
 const loginInputs = loginBox.item(0).querySelectorAll('input');
@@ -50,25 +49,25 @@ function activeFix() {
     this.classList.add('active');
 }
 
-function colorStar(num = 0) {
+function colorStar(stars,num = 0) {
     for (let i =0; i< 5; i++) {
         if (i <= num) {
-            ratingStar.item(i).classList.add('yellow');
+            stars.item(i).classList.add('yellow');
         } else {
-            ratingStar.item(i).classList.remove('yellow');
+            stars.item(i).classList.remove('yellow');
         }
     }
 
     if (this.event.type === 'mouseleave') {
         for (let i =0; i< 5; i++) {
-            if (ratingStar.item(i).classList.contains('fixedStar')) {
-                ratingStar.item(i).classList.add('yellow');
+            if (stars.item(i).classList.contains('fixedStar')) {
+                stars.item(i).classList.add('yellow');
             }
         }
     }
 }
 
-function fixStar(num = 0) {
+function fixStar(stars,num = 0) {
     // 로그인 이동
     if (getCookie('id') === null) {
         if (confirm('로그인이 필요합니다. 로그인하시겠습니까?')) {
@@ -80,9 +79,9 @@ function fixStar(num = 0) {
 
     for (let i =0; i< 5; i++) {
         if (i <= num) {
-            ratingStar.item(i).classList.add('fixedStar');
+            stars.item(i).classList.add('fixedStar');
         } else {
-            ratingStar.item(i).classList.remove('fixedStar');
+            stars.item(i).classList.remove('fixedStar');
         }
     }
 }
@@ -201,14 +200,6 @@ function allNone() {
     });
 }
 
-function displayNone(classNm) {
-    const element = document.querySelectorAll(`.${classNm}`);
-
-    Array.from(element).forEach(ele => {
-        ele.classList.add('none');
-    });
-}
-
 function displayShow(classNm) {
     const element = document.querySelector(`.${classNm}`);
     element.classList.remove('none');
@@ -224,24 +215,55 @@ cateBtn.forEach(btn => btn.addEventListener('mouseleave',toggleActive))
 cateBtn.forEach(btn => btn.addEventListener('click',activeFix))
 
 // 음식 선택 이벤트
+function foodEventHandler(e) {
+    // console.log(e);
+    // console.log(e.target);
+    if (e.target.classList.contains("food-name") && e.type === "click") {
+        let index = Array.from(document.querySelectorAll(".food-name")).findIndex((ele) => ele===e.target);
+        document.querySelector(".food-info").innerHTML = json.foodTemplate(foodData[index]);
+        displayShow('food-info');
+        scrollClass('food-info');
+    } 
+    // else if(e.target.classList.contains("food-name")) {
+    //     console.log(e);
+    //     console.log("enter");
+    //     toggleActive.call(e.target);
+    // }
+}
+foodList.addEventListener("click", foodEventHandler);
 foods.forEach(food =>
     food.querySelector('.food-name').addEventListener('mouseenter',toggleActive))
 foods.forEach(food =>
     food.querySelector('.food-name').addEventListener('mouseleave',toggleActive))
-foods.forEach(food =>
-    food.querySelector('.food-name').addEventListener('click', () => {
-        displayShow('food-rating');
-        scrollClass('food-rating');
-    }))
 
 // 별 평가 이벤트
-ratingBtn.forEach((rate,i) =>rate.addEventListener('click',() => fixStar(i)))
-ratingStar.forEach((rate,i) => rate.addEventListener('mouseenter', ()=> {
-    colorStar.call(window,i)
-}))
-ratingStar.forEach((rate) => rate.addEventListener('mouseleave', () => {
-    colorStar.call(window,-1)
-}))
+let prevFoodInfo = "NONE";
+function foodInfoEventHandler(e) {
+    // console.log(e.type);
+    // console.log(e.target.nodeName);
+
+    if (e.target.name === "star" && e.type === "click") {
+        const star = document.querySelectorAll("input[name='star']");
+        let index = Array.from(star).findIndex((ele) => ele===e.target);
+        fixStar(star,index);
+    }
+
+    // leave
+    if (prevFoodInfo.toLowerCase() === "label" && e.target.nodeName.toLowerCase() !== "label") {
+        const star = document.querySelectorAll(".star");
+        colorStar.call(window,star,-1);
+    }
+
+    if (e.target.nodeName.toLowerCase() === "label" && e.type === "mousemove") {
+        console.log(e.toElement.parentElement);
+        const star = document.querySelectorAll(".star");
+        let index = Array.from(star).findIndex((ele) => ele===e.toElement.parentElement);
+        colorStar.call(window,star,index);
+    }
+    prevFoodInfo = e.target.nodeName;
+}
+foodInfo.addEventListener("click",foodInfoEventHandler);
+foodInfo.addEventListener("mousemove",foodInfoEventHandler);
 
 // 로그인
 loginInputs.forEach(input => input.addEventListener('focus',toggleLabel));

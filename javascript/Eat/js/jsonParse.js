@@ -42,15 +42,13 @@ function foodCodeStr(code) {
 }
 
 function foodEvr(comments) {
-    let avr = comments.reduce((prev,next) => prev.star + next.star,0);
-    console.log(comments.length);
-    console.log(avr);
-    return 5.0;
+    let avr = comments.reduce((total,next) => total + next.star,0) / comments.length;
+    return avr.toFixed(1);
 }
 
 export function foodTemplate(data) {
     return `<div class="food-img">
-            <img src="/javascript/Eat/food/bread.jpg" alt="pizza">
+            <img src="${data.img}" alt="pizza">
         </div>
         <div class="food-avr">평점 <span class="avr">${foodEvr(data.comment)}</span></div>
         <div class="rating-star">
