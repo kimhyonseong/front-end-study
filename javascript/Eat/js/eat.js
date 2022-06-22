@@ -1,5 +1,6 @@
 import jsonData from './food.json' assert {type:"json"};
 import * as json from "./jsonParse";
+import {showFood} from "./jsonParse";
 const foodData = jsonData;
 
 // 초기 셋팅
@@ -226,21 +227,39 @@ function displayShow(classNm) {
     element.classList.remove('none');
 }
 
+function displayNone(classNm) {
+    const element = document.querySelector(`.${classNm}`);
+    element.classList.add('none');
+}
+
 // 음식 검색
 foodName.addEventListener('focus',toggleLabel);
 foodName.addEventListener('focusout',toggleLabel);
 
 // 카테고리 이벤트
+let prevCateIndex = 0;
 cateBtn.forEach(btn => btn.addEventListener('mouseenter',toggleActive))
 cateBtn.forEach(btn => btn.addEventListener('mouseleave',toggleActive))
 cateBtn.forEach((btn,index) =>
-    btn.addEventListener('click',()=>activeFix(index)))
+    btn.addEventListener('click',()=>{
+        // 이전 카테고리와 누른 카테고리가 다를 시 이벤트 진행
+        if (prevCateIndex !== index) {
+            activeFix(index);
+            displayNone("food-list");
+            setTimeout(() => {
+                foodList.innerHTML = json.showFood(foodData, index);
+                displayShow("food-list");
+            }, 500);
+        }
+        // 이전 카테고리 순서 저장
+        prevCateIndex = index;
+    }));
 activeFix(foodNum);
 
 // 음식 선택 이벤트
 function foodClickEvent(e) {
     if (e.target.classList.contains("food-name") && e.type === "click") {
-        const index = Array.from(document.querySelectorAll(".food-name")).findIndex((ele) => ele===e.target);
+        const index = e.target.dataset.num;
 
         foodInfo.innerHTML = json.foodTemplate(foodData[index]);
         removeActive.call(document.querySelectorAll(".food-name"));

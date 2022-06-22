@@ -1,12 +1,21 @@
-export function showFood(json) {
-    return json.map(data => `<div class="food">
+export function showFood(json,category = 0) {
+    return json
+        .filter(data => {
+            if(category === 0) {
+                return true
+            } else {
+                return data.code === category;
+            }
+        })
+        .map(data => `<div class="food"">
             <div class="food-img">
                 <img src="${data.img}" alt="${data.name}">
             </div>
-            <div class="food-name">
+            <div class="food-name" data-num="${data.num}">
                 ${data.name}
             </div>
-        </div>`).join('');
+        </div>`)
+        .join('');
 }
 
 function drawMyStar(num) {
@@ -79,7 +88,7 @@ export function foodTemplate(data) {
                 </label>
             </span>
         </div>
-        <div class="food-name">${data.name}</div>
+        <div class="food-name" data-num="${data.num}">${data.name}</div>
         <div class="food-cate">${foodCodeStr(data.food_code)}</div>
         <div class="food-reply">${replyStr(data.comment)}</div>`;
 }

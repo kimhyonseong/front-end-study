@@ -1,9 +1,9 @@
 [
   {
-    "num": 1,
+    "num": 0,
     "name": "pizza",
     "img": "/javascript/Eat/food/pizza.jpg",
-    "food_code": 2,
+    "code": 2,
     "comment": [
       {
         "no": 1,
@@ -20,10 +20,10 @@
     ]
   },
   {
-    "num": 2,
+    "num": 1,
     "name": "pizza1",
     "img": "/javascript/Eat/food/pizza1.jpg",
-    "food_code": 2,
+    "code": 2,
     "comment": [
       {
         "no": 1,
@@ -40,10 +40,10 @@
     ]
   },
   {
-    "num": 3,
+    "num": 2,
     "name": "bread",
     "img": "/javascript/Eat/food/bread.jpg",
-    "food_code": 2,
+    "code": 2,
     "comment": [
       {
         "no": 1,
@@ -60,10 +60,10 @@
     ]
   },
   {
-    "num": 4,
+    "num": 3,
     "name": "samgyub",
     "img": "/javascript/Eat/food/samgyub.jpg",
-    "food_code": 1,
+    "code": 1,
     "comment": [
       {
         "no": 1,
@@ -80,10 +80,10 @@
     ]
   },
   {
-    "num": 5,
+    "num": 4,
     "name": "bibimbab",
     "img": "/javascript/Eat/food/bibimbab.jpg",
-    "food_code": 1,
+    "code": 1,
     "comment": [
       {
         "no": 1,
@@ -100,10 +100,10 @@
     ]
   },
   {
-    "num": 6,
+    "num": 5,
     "name": "burger",
     "img": "/javascript/Eat/food/burger.jpg",
-    "food_code": 2,
+    "code": 2,
     "comment": [
       {
         "no": 1,
@@ -120,10 +120,10 @@
     ]
   },
   {
-    "num": 7,
+    "num": 6,
     "name": "sushi",
     "img": "/javascript/Eat/food/sushi.jpg",
-    "food_code": 2,
+    "code": 4,
     "comment": [
       {
         "no": 1,
@@ -140,10 +140,10 @@
     ]
   },
   {
-    "num": 8,
+    "num": 7,
     "name": "udong",
     "img": "/javascript/Eat/food/udong.jpg",
-    "food_code": 2,
+    "code": 4,
     "comment": [
       {
         "no": 1,
@@ -160,10 +160,10 @@
     ]
   },
   {
-    "num": 9,
+    "num": 8,
     "name": "bulgugi",
     "img": "/javascript/Eat/food/bulgugi.jpg",
-    "food_code": 2,
+    "code": 2,
     "comment": [
       {
         "no": 1,
