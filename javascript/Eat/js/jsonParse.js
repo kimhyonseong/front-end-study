@@ -42,12 +42,14 @@ function replyStr(comments) {
 }
 
 function foodCodeStr(code) {
-    switch (code) {
-        case 1: return '한식';
-        case 2: return '양식';
-        case 3: return '중식';
-        case 4: return '일식';
+    const data = {
+        1:'한식',
+        2:'양식',
+        3:'중식',
+        4:'일식'
     }
+
+    return data[code];
 }
 
 function foodEvr(comments) {
@@ -57,7 +59,7 @@ function foodEvr(comments) {
 
 export function foodTemplate(data) {
     return `<div class="food-img">
-            <img src="${data.img}" alt="pizza">
+            <img src="${data.img}" alt="${data.name}">
         </div>
         <div class="food-avr">평점 <span class="avr">${foodEvr(data.comment)}</span></div>
         <div class="rating-star">
@@ -89,6 +91,6 @@ export function foodTemplate(data) {
             </span>
         </div>
         <div class="food-name" data-num="${data.num}">${data.name}</div>
-        <div class="food-cate">${foodCodeStr(data.food_code)}</div>
+        <div class="food-cate">${foodCodeStr(data.code)}</div>
         <div class="food-reply">${replyStr(data.comment)}</div>`;
 }

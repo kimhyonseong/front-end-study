@@ -1,6 +1,5 @@
 import jsonData from './food.json' assert {type:"json"};
 import * as json from "./jsonParse";
-import {showFood} from "./jsonParse";
 const foodData = jsonData;
 
 // 초기 셋팅
@@ -66,7 +65,7 @@ function colorStar(stars,num = 0) {
         }
     }
 
-    if (this.event.type === 'mouseleave') {
+    if (num === -1) {
         for (let i =0; i< 5; i++) {
             if (stars.item(i).classList.contains('fixedStar')) {
                 stars.item(i).classList.add('yellow');
@@ -80,7 +79,6 @@ function fixStar(stars,num = 0) {
     if (getCookie('id') === null) {
         if (confirm('로그인이 필요합니다. 로그인하시겠습니까?')) {
             // 현재 음식 인덱스 번호 지정
-            foodNum = 1;
             window.localStorage.setItem("currentFood",`${foodNum}`);
             login();
             scrollClass('background');
@@ -260,6 +258,7 @@ activeFix(foodNum);
 function foodClickEvent(e) {
     if (e.target.classList.contains("food-name") && e.type === "click") {
         const index = e.target.dataset.num;
+        foodNum = index;
 
         foodInfo.innerHTML = json.foodTemplate(foodData[index]);
         removeActive.call(document.querySelectorAll(".food-name"));
@@ -310,8 +309,15 @@ function starMousemoveEvent(e) {
 function starClickEvent(e) {
     if (e.target.name === "star" && e.type === "click") {
         const star = document.querySelectorAll("input[name='star']");
+        const starLabel = document.querySelectorAll(".star");
         let index = Array.from(star).findIndex((ele) => ele===e.target);
-        fixStar(star,index);
+        const saveInfo = {
+            num:foodNum,
+            star:index,
+            comment:"Good!"
+        }
+        fixStar(starLabel,index);
+        ratingStar(saveInfo);
     }
 }
 foodInfo.addEventListener("click",starClickEvent);
@@ -383,3 +389,33 @@ registerForm.addEventListener('submit',(e)=>{
 
 registerForm.querySelector('input[data-value="goLogin"]')
     .addEventListener('click',login);
+
+function comment() {
+
+}
+
+function ratingStar(saveInfo) {
+    const obj = {
+        num:saveInfo.num,
+        star:saveInfo.star,
+        comment:saveInfo.comment
+    }
+    let prevRating = "";
+    let ratingArray = [];
+    ratingArray.push(obj);
+
+    if(window.localStorage.getItem("foodRating")) {
+        prevRating = JSON.parse(window.localStorage.getItem("foodRating"));
+
+        // 이전에 평가한 것 중에 없으면 진행
+        if (!prevRating.some(ele => ele.num === saveInfo.num)) {
+            ratingArray.push(prevRating);
+            window.localStorage.setItem("foodRating", JSON.stringify(ratingArray));
+        } else {
+            // 있으면 수정 - 해야됨
+            prevRating.filter(ele => ele.num === saveInfo.num).map()
+        }
+    } else {
+        window.localStorage.setItem("foodRating",JSON.stringify(ratingArray));
+    }
+}
