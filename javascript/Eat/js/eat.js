@@ -25,10 +25,12 @@ const registerForm = document.querySelector('form[class="registerForm"]');
 //클래스까지 스크롤
 function scrollClass(clasNm) {
     const element = document.querySelector(`.${clasNm}`);
-    window.scroll({
-        top : element.offsetTop,
-        behavior: 'smooth'
-    })
+    setTimeout(()=> {
+        window.scroll({
+            top : window.scrollY + element.getBoundingClientRect().top,
+            behavior: 'smooth'
+        })
+    },0);
 }
 
 // 클래스 토클
@@ -93,6 +95,8 @@ function fixStar(stars,num = 0) {
             stars.item(i).classList.remove('fixedStar');
         }
     }
+
+    return true;
 }
 
 function login() {
@@ -118,15 +122,20 @@ function loginAction(e) {
             const userDataNm = window.localStorage.getItem('name').split(',');
 
             let test = userDataId.indexOf(userId);
-            console.log(test);
 
             if (userDataPw[test] === password) {
                 setCookie('id', userDataId[test]);
                 setCookie('name', userDataNm[test]);
-                alert('로그인 완료.');
+                //alert('로그인 완료.');
 
                 // 내가 전에 평가하던 페이지로 가기
-                location.reload();
+                allNone();
+                foodInfo.innerHTML = json.foodTemplate(foodData[window.localStorage.getItem("currentFood")]);
+                setTimeout(() => {
+                    displayShow('form-div');
+                    displayShow('food-list');
+                    displayShow('food-info');
+                },500)
             } else {
                 alert('아이디와 비밀번호가 일치하지 않습니다.');
                 return false;
@@ -252,7 +261,7 @@ cateBtn.forEach((btn,index) =>
         // 이전 카테고리 순서 저장
         prevCateIndex = index;
     }));
-activeFix(foodNum);
+activeFix(0);
 
 // 음식 선택 이벤트
 function foodClickEvent(e) {
@@ -262,6 +271,7 @@ function foodClickEvent(e) {
 
         foodInfo.innerHTML = json.foodTemplate(foodData[index]);
         removeActive.call(document.querySelectorAll(".food-name"));
+        drawMyStar(index);
         displayShow('food-info');
         scrollClass('food-info');
     }
@@ -284,6 +294,20 @@ function foodMousemoveEvent(e) {
     }
     prevFoodList = e.target;
 }
+
+function drawMyStar(num) {
+    let rating = window.localStorage.getItem("foodRating");
+    rating = JSON.parse(rating);
+
+    let myRating = rating.map(data => parseInt(data.num) === num) || null;
+
+    if(myRating !== null) {
+        console.log(myRating.star);
+    } else {
+        return false;
+    }
+}
+
 foodList.addEventListener("click", foodClickEvent);
 foodList.addEventListener("mousemove", foodMousemoveEvent);
 
@@ -316,10 +340,12 @@ function starClickEvent(e) {
             star:index,
             comment:"Good!"
         }
-        fixStar(starLabel,index);
-        ratingStar(saveInfo);
+        if(fixStar(starLabel,index)) {
+            ratingStar(saveInfo);
+        }
     }
 }
+
 foodInfo.addEventListener("click",starClickEvent);
 foodInfo.addEventListener("mousemove",starMousemoveEvent);
 
@@ -407,13 +433,21 @@ function ratingStar(saveInfo) {
     if(window.localStorage.getItem("foodRating")) {
         prevRating = JSON.parse(window.localStorage.getItem("foodRating"));
 
-        // 이전에 평가한 것 중에 없으면 진행
+        //이전에 평가한 것 중에 없으면 진행
         if (!prevRating.some(ele => ele.num === saveInfo.num)) {
             ratingArray.push(prevRating);
             window.localStorage.setItem("foodRating", JSON.stringify(ratingArray));
         } else {
-            // 있으면 수정 - 해야됨
-            prevRating.filter(ele => ele.num === saveInfo.num).map()
+            // 이전에 평가 했으면 star 값만 수정
+            prevRating = prevRating.map(data=>{
+                if (parseInt(data.num) === parseInt(obj.num)) {
+                    data.star = obj.star;
+                    return data;
+                } else {
+                    return data;
+                }
+            });
+            window.localStorage.setItem("foodRating", JSON.stringify(prevRating));
         }
     } else {
         window.localStorage.setItem("foodRating",JSON.stringify(ratingArray));

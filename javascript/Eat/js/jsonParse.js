@@ -18,10 +18,6 @@ export function showFood(json,category = 0) {
         .join('');
 }
 
-function drawMyStar(num) {
-
-}
-
 function drawStar(num) {
     // ★★★★★
     let star = "★";
