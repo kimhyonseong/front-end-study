@@ -61,6 +61,34 @@
     margin-bottom: 30px;
 }
 
+.food-info .food-comment {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.food-info .food-comment>textarea {
+    width: 80%;
+    resize: none;
+    padding: 15px;
+    font-size: 20px;
+    border-radius: 10px 0 0 10px;
+    border: 1px solid black;
+    border-right: 0;
+}
+
+.food-info .food-comment>textarea:focus {
+    border: 1px solid #0a6eeb;
+    border-right: 0;
+}
+
+.food-info .food-comment>button {
+    border-radius: 0 10px 10px 0;
+    border: 1px solid;
+    width: 10%;
+}
+
 .food-info .food-reply {
     max-width: 100%;
     text-align: center;
@@ -114,3 +142,4 @@
     transition: padding 0.5s, height 0.5s, margin 0.5s,
     visibility 0s, opacity 0.2s;
 }
+

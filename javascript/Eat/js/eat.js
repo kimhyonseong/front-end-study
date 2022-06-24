@@ -1,5 +1,6 @@
-import jsonData from './food.json' assert {type:"json"};
+import jsonData from './food.json' assert {type: "json"};
 import * as json from "./jsonParse";
+
 const foodData = jsonData;
 
 // 초기 셋팅
@@ -27,12 +28,12 @@ const searchForm = document.querySelector(".search-form");
 //클래스까지 스크롤
 function scrollClass(clasNm) {
     const element = document.querySelector(`.${clasNm}`);
-    setTimeout(()=> {
+    setTimeout(() => {
         window.scroll({
-            top : window.scrollY + element.getBoundingClientRect().top,
+            top: window.scrollY + element.getBoundingClientRect().top,
             behavior: 'smooth'
         })
-    },0);
+    }, 0);
 }
 
 // 클래스 토클
@@ -60,8 +61,8 @@ function activeFix(index) {
     })
 }
 
-function colorStar(stars,num = 0) {
-    for (let i =0; i< 5; i++) {
+function colorStar(stars, num = 0) {
+    for (let i = 0; i < 5; i++) {
         if (i <= num) {
             stars.item(i).classList.add('yellow');
         } else {
@@ -70,7 +71,7 @@ function colorStar(stars,num = 0) {
     }
 
     if (num === -1) {
-        for (let i =0; i< 5; i++) {
+        for (let i = 0; i < 5; i++) {
             if (stars.item(i).classList.contains('fixedStar')) {
                 stars.item(i).classList.add('yellow');
             }
@@ -78,19 +79,19 @@ function colorStar(stars,num = 0) {
     }
 }
 
-function fixStar(stars,num = 0) {
+function fixStar(stars, num = 0) {
     // 로그인 이동
     if (getCookie('id') === null) {
         if (confirm('로그인이 필요합니다. 로그인하시겠습니까?')) {
             // 현재 음식 인덱스 번호 지정
-            window.localStorage.setItem("currentFood",`${foodNum}`);
+            window.localStorage.setItem("currentFood", `${foodNum}`);
             login();
             scrollClass('background');
         }
         return false;
     }
 
-    for (let i =0; i< 5; i++) {
+    for (let i = 0; i < 5; i++) {
         if (i <= num) {
             stars.item(i).classList.add('fixedStar');
         } else {
@@ -137,7 +138,7 @@ function loginAction(e) {
                     displayShow('form-div');
                     displayShow('food-list');
                     displayShow('food-info');
-                },500)
+                }, 500)
             } else {
                 alert('아이디와 비밀번호가 일치하지 않습니다.');
                 return false;
@@ -158,13 +159,13 @@ function register() {
 
 function getCookie(name) {
     let matches = document.cookie.match(new RegExp(
-        "(?:^|; )"+name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g,'\\$1') + "=([^;]*)"
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
     ));
     let result = matches ? decodeURIComponent(matches[0]) : undefined;
     return result ? result.split('=')[1] : null;
 }
 
-function setCookie(name, value,options = {}) {
+function setCookie(name, value, options = {}) {
     options = {
         path: '/',
     };
@@ -173,7 +174,7 @@ function setCookie(name, value,options = {}) {
         options.expires = options.expires.toUTCString();
     }
 
-    let updatedCookie = encodeURIComponent(name)+"="+encodeURIComponent(value);
+    let updatedCookie = encodeURIComponent(name) + "=" + encodeURIComponent(value);
 
     for (let optionKey in options) {
         updatedCookie += `; ${optionKey}`;
@@ -189,8 +190,8 @@ function setCookie(name, value,options = {}) {
 function localSave(obj) {
     const userIds = window.localStorage.getItem('id');
     let all = {
-        id:'',
-        password:'',
+        id: '',
+        password: '',
         name: ''
     }
     if (typeof obj === 'object' && obj !== null) {
@@ -199,9 +200,9 @@ function localSave(obj) {
                 alert('이미 사용 중인 아이디입니다.');
                 return false;
             }
-            all.id = ','+userIds;
-            all.password = ','+window.localStorage.getItem('password');
-            all.name = ','+window.localStorage.getItem('name');
+            all.id = ',' + userIds;
+            all.password = ',' + window.localStorage.getItem('password');
+            all.name = ',' + window.localStorage.getItem('name');
         }
 
         window.localStorage.setItem('id', `${obj.userId}${all.id}`);
@@ -242,15 +243,15 @@ function displayNone(classNm) {
 }
 
 // 음식 검색
-foodName.addEventListener('focus',toggleLabel);
-foodName.addEventListener('focusout',toggleLabel);
+foodName.addEventListener('focus', toggleLabel);
+foodName.addEventListener('focusout', toggleLabel);
 
 // 카테고리 이벤트
 let prevCateIndex = 0;
-cateBtn.forEach(btn => btn.addEventListener('mouseenter',toggleActive))
-cateBtn.forEach(btn => btn.addEventListener('mouseleave',toggleActive))
-cateBtn.forEach((btn,index) =>
-    btn.addEventListener('click',()=>{
+cateBtn.forEach(btn => btn.addEventListener('mouseenter', toggleActive))
+cateBtn.forEach(btn => btn.addEventListener('mouseleave', toggleActive))
+cateBtn.forEach((btn, index) =>
+    btn.addEventListener('click', () => {
         // 이전 카테고리와 누른 카테고리가 다를 시 이벤트 진행
         if (prevCateIndex !== index) {
             activeFix(index);
@@ -274,6 +275,8 @@ function foodClickEvent(e) {
         foodInfo.innerHTML = json.foodTemplate(foodData[index]);
         removeActive.call(document.querySelectorAll(".food-name"));
         drawMyStar(index);
+        myComment(index);
+        reloadFoodScore(index);
         displayShow('food-info');
         scrollClass('food-info');
     }
@@ -282,16 +285,14 @@ function foodClickEvent(e) {
 let prevFoodList = foodList;
 function foodMousemoveEvent(e) {
     //enter
-    if(e.target.classList.contains("food-name") && !prevFoodList.classList.contains("food-name")) {
+    if (e.target.classList.contains("food-name") && !prevFoodList.classList.contains("food-name")) {
         toggleActive.call(e.target);
     }
 
     //leave
     else if (!e.target.classList.contains("food-name") && prevFoodList.classList.contains("food-name")) {
         toggleActive.call(prevFoodList);
-    }
-
-    else if(!e.target.classList.contains("food-name") && !prevFoodList.classList.contains("food-name")) {
+    } else if (!e.target.classList.contains("food-name") && !prevFoodList.classList.contains("food-name")) {
         removeActive.call(document.querySelectorAll(".food-name"));
     }
     prevFoodList = e.target;
@@ -299,21 +300,57 @@ function foodMousemoveEvent(e) {
 
 function drawMyStar(num) {
     let rating = window.localStorage.getItem("foodRating") || null;
+    let myRating = null;
     rating = JSON.parse(rating);
 
     if (rating !== null) {
-        let myRating = rating.filter(data => {
-            if (parseInt(data.num) === parseInt(num))
-                return true;
-        }) || null;
+        myRating = rating.filter(data => parseInt(data.num) === parseInt(num)) || null;
 
         if (myRating !== null && myRating.length > 0) {
-            fixStar(document.querySelectorAll(".star"),myRating[0].star);
-            colorStar(document.querySelectorAll(".star"),myRating[0].star);
+            fixStar(document.querySelectorAll(".star"), myRating[0].star);
+            colorStar(document.querySelectorAll(".star"), myRating[0].star);
         } else {
             return false;
         }
     }
+}
+
+function myComment (num) {
+    let rating = window.localStorage.getItem("foodRating") || null;
+    let myComment = null;
+    rating = JSON.parse(rating);
+
+    if (rating !== null) {
+        myComment = rating.filter(data => parseInt(data.num) === parseInt(num)) || null;
+
+        if (myComment !== null && myComment.length > 0) {
+            document.querySelector(".food-comment>textarea").innerText = myComment[0].comment;
+        } else {
+            return false;
+        }
+    }
+}
+
+function reloadFoodScore(num) {
+    let rating = window.localStorage.getItem("foodRating") || null;
+    let review = foodData.filter(data=>parseInt(data.num) === parseInt(num)).map(data => data.comment)[0];
+    let firstValue = 0;
+    let totalScore = 0;
+    let avg = 0;
+
+    if (rating !== null) {
+        rating = JSON.parse(rating).filter(data => parseInt(data.num) === parseInt(num));
+
+        if (rating.length > 0) {
+            firstValue = parseInt(rating[0].star) + 1;
+        }
+    }
+
+    // 누산기를 이용하여 총점 계산
+    totalScore = review.reduce((total,data) => parseInt(total) + parseInt(data.star),firstValue);
+    avg = (totalScore / (review.length + 1)).toFixed(1);
+
+    document.querySelector(".avr").innerText = avg;
 }
 
 foodList.addEventListener("click", foodClickEvent);
@@ -326,42 +363,57 @@ function starMousemoveEvent(e) {
     // leave
     if (prevFoodInfo.toLowerCase() === "label" && e.target.nodeName.toLowerCase() !== "label") {
         const star = document.querySelectorAll(".star");
-        colorStar.call(window,star,-1);
+        colorStar.call(window, star, -1);
     }
 
     // enter
     if (e.target.nodeName.toLowerCase() === "label" && e.type === "mousemove") {
         const star = document.querySelectorAll(".star");
-        let index = Array.from(star).findIndex((ele) => ele===e.toElement.parentElement);
-        colorStar.call(window,star,index);
+        let index = Array.from(star).findIndex((ele) => ele === e.toElement.parentElement);
+        colorStar.call(window, star, index);
     }
     prevFoodInfo = e.target.nodeName;
 }
 
 function starClickEvent(e) {
-    if (e.target.name === "star" && e.type === "click") {
-        const star = document.querySelectorAll("input[name='star']");
-        const starLabel = document.querySelectorAll(".star");
-        let index = Array.from(star).findIndex((ele) => ele===e.target);
-        const saveInfo = {
-            num:foodNum,
-            star:index,
-            comment:"Good!"
-        }
-        if(fixStar(starLabel,index)) {
-            ratingStar(saveInfo);
-        }
+    const star = document.querySelectorAll("input[name='star']");
+    const starLabel = document.querySelectorAll(".star");
+    let index = Array.from(star).findIndex((ele) => ele === e.target);
+
+    fixStar(starLabel, index);
+}
+
+function writeReview() {
+    const index = document.querySelector("input[name='star']:checked").value;
+    const comment = document.querySelector(".food-comment>textarea").value;
+    const saveInfo = {
+        num: foodNum,
+        star: index-1,
+        comment: comment
+    }
+
+    ratingStar(saveInfo);
+}
+
+function foodInfoClickEvent(e) {
+    if (e.target.name === "star") {
+        starClickEvent(e);
+    } else if (e.target.nodeName.toLowerCase() === "button") {
+        writeReview();
+        alert("리뷰 작성이 완료되었습니다.");
+        reloadFoodScore(foodNum);
+        e.preventDefault();
     }
 }
 
-foodInfo.addEventListener("click",starClickEvent);
-foodInfo.addEventListener("mousemove",starMousemoveEvent);
+foodInfo.addEventListener("click", foodInfoClickEvent);
+foodInfo.addEventListener("mousemove", starMousemoveEvent);
 
 // 로그인
-loginInputs.forEach(input => input.addEventListener('focus',toggleLabel));
-loginInputs.forEach(input => input.addEventListener('focusout',toggleLabel));
+loginInputs.forEach(input => input.addEventListener('focus', toggleLabel));
+loginInputs.forEach(input => input.addEventListener('focusout', toggleLabel));
 loginInputs.forEach(input =>
-    input.addEventListener('keypress',(e) => {
+    input.addEventListener('keypress', (e) => {
         if (e.code.toLowerCase() === "space") {
             e.preventDefault();
         }
@@ -373,11 +425,13 @@ function valueEmpty(value) {
     // 비었으면 false
     return value.trim() !== "";
 }
+
 function rexExp(value) {
     // 특수문자 포함시 true
-    let specialStr = new RegExp(/[`~!@#$%^&*\[\]|'"()\-_+=,.\/\\?><]/,"gi");
+    let specialStr = new RegExp(/[`~!@#$%^&*\[\]|'"()\-_+=,.\/\\?><]/, "gi");
     return specialStr.test(value);
 }
+
 function validationUser(userInfo) {
     // 유효성 검사 - 모두 통과시 true
     if (typeof userInfo !== "object") {
@@ -393,28 +447,30 @@ function validationUser(userInfo) {
         return false;
     }
 }
-regiInputs.forEach(input => input.addEventListener('focus',toggleLabel));
-regiInputs.forEach(input => input.addEventListener('focusout',toggleLabel));
+
+// 회원가입
+regiInputs.forEach(input => input.addEventListener('focus', toggleLabel));
+regiInputs.forEach(input => input.addEventListener('focusout', toggleLabel));
 regiInputs.forEach(input =>
-    input.addEventListener('keypress',(e) => {
+    input.addEventListener('keypress', (e) => {
         if (e.code.toLowerCase() === "space") {
             e.preventDefault();
         }
     }));
-registerForm.addEventListener('submit',(e)=>{
+registerForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
     const user = {
-        userId : registerForm.querySelector('input[name="user_id"]').value.trim(),
-        password : registerForm.querySelector('input[name="user_pw"]').value.trim(),
-        name : registerForm.querySelector('input[name="user_name"]').value.trim()
+        userId: registerForm.querySelector('input[name="user_id"]').value.trim(),
+        password: registerForm.querySelector('input[name="user_pw"]').value.trim(),
+        name: registerForm.querySelector('input[name="user_name"]').value.trim()
     }
 
-    if(validationUser(user)) {
+    if (validationUser(user)) {
         return false;
     }
 
-    if(localSave(user)) {
+    if (localSave(user)) {
         alert('가입이 완료되었습니다.');
         allNone();
         displayShow('login');
@@ -422,34 +478,31 @@ registerForm.addEventListener('submit',(e)=>{
 })
 
 registerForm.querySelector('input[data-value="goLogin"]')
-    .addEventListener('click',login);
-
-function comment() {
-
-}
+    .addEventListener('click', login);
 
 function ratingStar(saveInfo) {
     const obj = {
-        num:saveInfo.num,
-        star:saveInfo.star,
-        comment:saveInfo.comment
+        num: saveInfo.num,
+        star: saveInfo.star,
+        comment: saveInfo.comment
     }
     let prevRating = "";
     let ratingArray = [];
     ratingArray.push(obj);
 
-    if(window.localStorage.getItem("foodRating")) {
+    if (window.localStorage.getItem("foodRating")) {
         prevRating = JSON.parse(window.localStorage.getItem("foodRating"));
 
         //이전에 평가한 것 중에 없으면 진행
         if (!prevRating.some(ele => ele.num === saveInfo.num)) {
-            ratingArray = [...ratingArray,...prevRating];
+            ratingArray = [...ratingArray, ...prevRating];
             window.localStorage.setItem("foodRating", JSON.stringify(ratingArray));
         } else {
             // 이전에 평가 했으면 star 값만 수정
-            prevRating = prevRating.map(data=>{
+            prevRating = prevRating.map(data => {
                 if (parseInt(data.num) === parseInt(obj.num)) {
                     data.star = obj.star;
+                    data.comment = obj.comment;
                     return data;
                 } else {
                     return data;
@@ -459,7 +512,7 @@ function ratingStar(saveInfo) {
             window.localStorage.setItem("foodRating", JSON.stringify(prevRating));
         }
     } else {
-        window.localStorage.setItem("foodRating",JSON.stringify(ratingArray));
+        window.localStorage.setItem("foodRating", JSON.stringify(ratingArray));
     }
 }
 
@@ -470,7 +523,8 @@ function searchFood() {
 
     foodList.innerHTML = json.showFood(resultFood);
 }
-searchForm.addEventListener("submit",(e) => {
+
+searchForm.addEventListener("submit", (e) => {
     e.preventDefault();
     searchFood();
 });
