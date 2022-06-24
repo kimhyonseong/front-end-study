@@ -194,6 +194,7 @@ function localSave(obj) {
         password: '',
         name: ''
     }
+
     if (typeof obj === 'object' && obj !== null) {
         if (userIds) {
             if (userIds.split(',').includes(obj.userId)) {
@@ -303,6 +304,10 @@ function drawMyStar(num) {
     let myRating = null;
     rating = JSON.parse(rating);
 
+    if (getCookie('id') === null || getCookie('id') === undefined) {
+        return false
+    }
+
     if (rating !== null) {
         myRating = rating.filter(data => parseInt(data.num) === parseInt(num)) || null;
 
@@ -320,6 +325,10 @@ function myComment (num) {
     let myComment = null;
     rating = JSON.parse(rating);
 
+    if (getCookie('id') === null || getCookie('id') === undefined) {
+        return false
+    }
+
     if (rating !== null) {
         myComment = rating.filter(data => parseInt(data.num) === parseInt(num)) || null;
 
@@ -334,6 +343,7 @@ function myComment (num) {
 function reloadFoodScore(num) {
     let rating = window.localStorage.getItem("foodRating") || null;
     let review = foodData.filter(data=>parseInt(data.num) === parseInt(num)).map(data => data.comment)[0];
+    let totalSize = review.length;
     let firstValue = 0;
     let totalScore = 0;
     let avg = 0;
@@ -343,12 +353,13 @@ function reloadFoodScore(num) {
 
         if (rating.length > 0) {
             firstValue = parseInt(rating[0].star) + 1;
+            totalSize++;
         }
     }
 
     // 누산기를 이용하여 총점 계산
     totalScore = review.reduce((total,data) => parseInt(total) + parseInt(data.star),firstValue);
-    avg = (totalScore / (review.length + 1)).toFixed(1);
+    avg = (totalScore / totalSize).toFixed(1);
 
     document.querySelector(".avr").innerText = avg;
 }
@@ -446,6 +457,7 @@ function validationUser(userInfo) {
         alert('빈칸을 확인해주세요.');
         return false;
     }
+    return true;
 }
 
 // 회원가입
@@ -466,7 +478,7 @@ registerForm.addEventListener('submit', (e) => {
         name: registerForm.querySelector('input[name="user_name"]').value.trim()
     }
 
-    if (validationUser(user)) {
+    if (!validationUser(user)) {
         return false;
     }
 

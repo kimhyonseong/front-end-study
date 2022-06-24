@@ -77,9 +77,9 @@ function foodEvr(comments, foodNum = 0) {
     let avr = comments.reduce((total,next) => total + next.star,0) / comments.length;
     let myRating = window.localStorage.getItem("foodRating") || null;
     myRating = JSON.parse(myRating);
-    myRating = myRating.filter(data => parseInt(data.num) === foodNum);
 
     if (myRating !== null && myRating.length > 0) {
+        myRating = myRating.filter(data => parseInt(data.num) === foodNum);
         avr = comments.reduce((total,next) => total + next.star,(parseInt(myRating[0].star)+1)) / (comments.length + myRating.length);
     }
     return avr.toFixed(1);
