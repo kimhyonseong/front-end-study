@@ -22,6 +22,8 @@ const loginBt = loginBox.item(0).querySelectorAll('.buttons>input');
 const loginForm = document.querySelector('form[class="loginForm"]');
 const registerForm = document.querySelector('form[class="registerForm"]');
 
+const searchForm = document.querySelector(".search-form");
+
 //클래스까지 스크롤
 function scrollClass(clasNm) {
     const element = document.querySelector(`.${clasNm}`);
@@ -191,7 +193,7 @@ function localSave(obj) {
         password:'',
         name: ''
     }
-    if (typeof obj === 'object') {
+    if (typeof obj === 'object' && obj !== null) {
         if (userIds) {
             if (userIds.split(',').includes(obj.userId)) {
                 alert('이미 사용 중인 아이디입니다.');
@@ -296,15 +298,21 @@ function foodMousemoveEvent(e) {
 }
 
 function drawMyStar(num) {
-    let rating = window.localStorage.getItem("foodRating");
+    let rating = window.localStorage.getItem("foodRating") || null;
     rating = JSON.parse(rating);
 
-    let myRating = rating.map(data => parseInt(data.num) === num) || null;
+    if (rating !== null) {
+        let myRating = rating.filter(data => {
+            if (parseInt(data.num) === parseInt(num))
+                return true;
+        }) || null;
 
-    if(myRating !== null) {
-        console.log(myRating.star);
-    } else {
-        return false;
+        if (myRating !== null && myRating.length > 0) {
+            fixStar(document.querySelectorAll(".star"),myRating[0].star);
+            colorStar(document.querySelectorAll(".star"),myRating[0].star);
+        } else {
+            return false;
+        }
     }
 }
 
@@ -435,7 +443,7 @@ function ratingStar(saveInfo) {
 
         //이전에 평가한 것 중에 없으면 진행
         if (!prevRating.some(ele => ele.num === saveInfo.num)) {
-            ratingArray.push(prevRating);
+            ratingArray = [...ratingArray,...prevRating];
             window.localStorage.setItem("foodRating", JSON.stringify(ratingArray));
         } else {
             // 이전에 평가 했으면 star 값만 수정
@@ -447,9 +455,22 @@ function ratingStar(saveInfo) {
                     return data;
                 }
             });
+
             window.localStorage.setItem("foodRating", JSON.stringify(prevRating));
         }
     } else {
         window.localStorage.setItem("foodRating",JSON.stringify(ratingArray));
     }
 }
+
+// 음식 검색
+function searchFood() {
+    const foodName = document.querySelector(".food-search").value;
+    let resultFood = foodData.filter(food => food.name.includes(foodName));
+
+    foodList.innerHTML = json.showFood(resultFood);
+}
+searchForm.addEventListener("submit",(e) => {
+    e.preventDefault();
+    searchFood();
+});
