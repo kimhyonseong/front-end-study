@@ -13,12 +13,9 @@ function App() {
   };
   return (
     <div className="App">
-        <Hello/>
-        <World />
-        <Welcome />
-        <div className={styles.box}>
-            App
-        </div>
+        <Hello age={10}/>
+        <Hello age={20}/>
+        <Hello age={30}/>
     </div>
   );
 }
