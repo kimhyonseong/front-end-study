@@ -45,6 +45,20 @@
       "eng": "car",
       "kor": "차",
       "isDone": false
+    },
+    {
+      "day": "4",
+      "eng": "monkey",
+      "kor": "원숭이",
+      "isDone": false,
+      "id": 5
+    },
+    {
+      "day": "4",
+      "eng": "computer",
+      "kor": "컴퓨터",
+      "isDone": false,
+      "id": 6
     }
   ]
 }
