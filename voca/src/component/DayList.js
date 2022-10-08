@@ -1,18 +1,10 @@
 import data from "../db/data.json"
 import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
+import useFetch from "../hooks/useFetch";
 
 export default function DayList() {
-    const [days,setDays] = useState([]);
-
-    useEffect(()=>{
-        fetch('http://localhost:3001/days')
-            .then(res=>res.json())
-            .then(data => {
-                setDays(data);
-            })
-        console.log("Count change");
-    },[])
+    const days = useFetch(`http://localhost:3001/days`);
 
     return <>
     <ul className="list_day">
